@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ワンナイト人狼オンライン</title>
+  <link rel="stylesheet" href="./style.css?v=0.6.0" />
+</head>
+<body>
+  <div id="connectionOverlay" class="connection-overlay hidden">
+    <div class="connection-overlay-card">
+      <h2>通信が切断されました</h2>
+      <p>再接続中です。復帰しない場合は再接続ボタンを押してください。</p>
+      <button id="overlayReconnectBtn" type="button">再接続</button>
+    </div>
+  </div>
+
+  <main class="app">
+    <header class="header">
+      <h1>ワンナイト人狼オンライン</h1>
+      <p class="sub">v0.6.0</p>
+      <button id="soundToggleBtn" type="button" class="small-button secondary">効果音・バイブ OFF</button>
+    </header>
+
+    <section class="box compact-box">
+      <h2>名前</h2>
+      <div class="row one-line">
+        <input id="playerNameInput" type="text" maxlength="12" placeholder="プレイヤー名" />
+      </div>
+    </section>
+
+    <section class="box compact-box">
+      <h2>部屋を作成</h2>
+      <p class="help">希望ルームコードは任意です。2桁数字で指定できます。</p>
+      <div class="row one-line">
+        <input
+          id="createRoomCodeInput"
+          type="text"
+          maxlength="2"
+          inputmode="numeric"
+          autocomplete="off"
+          placeholder="希望コード 例: 12"
+        />
+        <button id="createRoomBtn" type="button">部屋を作成</button>
+      </div>
+    </section>
+
+    <section class="box compact-box">
+      <h2>部屋に参加</h2>
+      <div class="row one-line">
+        <input
+          id="roomCodeInput"
+          type="text"
+          maxlength="2"
+          inputmode="numeric"
+          autocomplete="off"
+          placeholder="2桁コード"
+        />
+        <button id="joinRoomBtn" type="button">参加</button>
+      </div>
+
+      <div id="reconnectArea" class="hidden reconnect-area">
+        <button id="reconnectBtn" type="button">前回の部屋に再接続</button>
+      </div>
+
+      <p id="connectionStatus" class="status">未接続</p>
+    </section>
+
+    <section id="roomPanel" class="box hidden">
+      <h2>ロビー</h2>
+
+      <div id="hostDisconnectWarning" class="warning hidden"></div>
+
+      <div class="room-code-wrap">
+        <span>ルームコード</span>
+        <strong id="roomCodeText">--</strong>
+        <button id="copyRoomCodeBtn" type="button">コピー</button>
+      </div>
+
+      <div id="invitePanel" class="invite-panel">
+        <div class="invite-url-row">
+          <input id="inviteUrlInput" type="text" readonly />
+          <button id="copyInviteUrlBtn" type="button">招待URLコピー</button>
+        </div>
+        <img id="qrImage" class="qr-image" alt="招待QRコード" />
+      </div>
+
+      <div id="lobbyNamePanel" class="name-change-panel">
+        <h3>名前変更</h3>
+        <div class="row one-line">
+          <input id="lobbyNameInput" type="text" maxlength="12" placeholder="新しい名前" />
+          <button id="changeNameBtn" type="button">変更</button>
+        </div>
+      </div>
+
+      <p id="phaseText" class="phase">待機中</p>
+
+      <div id="settingsPanel" class="settings-panel">
+        <h3>設定</h3>
+
+        <div class="settings-grid">
+          <label>
+            人数
+            <select id="settingPlayerCount"></select>
+          </label>
+
+          <label>
+            パターン
+            <select id="settingPattern"></select>
+          </label>
+
+          <label>
+            夜行動時間
+            <select id="settingNightSeconds"></select>
+          </label>
+
+          <label>
+            議論時間
+            <select id="settingDiscussionSeconds"></select>
+          </label>
+
+          <label>
+            投票時間
+            <select id="settingVoteSeconds"></select>
+          </label>
+        </div>
+
+        <p id="currentSettingsText" class="readonly-settings"></p>
+
+        <div id="settingsActions" class="actions hidden">
+          <button id="saveSettingsBtn" type="button">設定を保存</button>
+        </div>
+
+        <p id="settingStatus" class="status"></p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>順番</th>
+              <th>名前</th>
+              <th>枠</th>
+              <th>状態</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="playerTableBody"></tbody>
+        </table>
+      </div>
+
+      <div id="hostControls" class="host-controls hidden">
+        <button id="startGameBtn" type="button">開始</button>
+        <button id="backToLobbyBtn" type="button" class="secondary hidden">ロビーに戻す</button>
+      </div>
+    </section>
+
+    <section id="gamePanel" class="box hidden">
+      <h2>ゲーム画面</h2>
+      <p id="gameStatusText">ゲーム開始状態の同期確認中です。</p>
+      <div id="nightActionButtons" class="game-action-buttons"></div>
+      <div id="resultCardsWrap" class="result-cards-wrap"></div>
+      <div id="localStatsPanel" class="local-stats-panel"></div>
+    </section>
+
+    <footer class="footer">
+      <span id="versionText">v0.6.0</span>
+    </footer>
+  </main>
+
+  <script type="module" src="./app.js?v=0.6.0"></script>
+</body>
+</html>
